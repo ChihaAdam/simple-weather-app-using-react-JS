@@ -34,7 +34,7 @@ function App() {
         setCityName(city +'-' + data.sys.country);
         setTemp(`temperature ${KtoC(info.temp)}`); 
         setHumid(`humidity : ${info.humidity} %`);
-        setWeather(`https://openweathermap.org/img/wn/${weath[0].icon}@2x.png`);
+        setWeather(`https://openweathermap.org/img/wn/${weath[0].icon.slice(0,weath[0].icon.length-1)}d@2x.png`);
       }
     } catch (error) {
       setError(`error: ${error.response?.data?.message || error.message}`)
@@ -76,6 +76,12 @@ function App() {
       testing();
     }
   }
+  function reset(){
+    setCityName("");
+    setTemp("");
+    setWeather("");
+    setHumid("");
+  }
   return (<div className={Styles.container}>
               <div className={Styles.searchBox}>
               <h1 className={Styles.title}>weather app</h1>
@@ -86,7 +92,8 @@ function App() {
               <span className={Styles.error}>{error}</span>
               </div>
               <div className={Styles.Info}>
-                   <h1>{cityName}</h1> 
+                  {temp && <button className={Styles.reset} onClick={reset}>❌</button>}
+                   <h1 className={Styles.city}>{cityName}</h1> 
                    <h2>{temp}</h2> 
                    <h2>{humidity}</h2>
                    <img src={weather} className={Styles.icon} />       
